@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Auth\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::prefix('v1')->group(function () {
-   
+    Route::post('signup', [AuthController::class, 'register']);
+    Route::post('signin', [AuthController::class, 'login']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
