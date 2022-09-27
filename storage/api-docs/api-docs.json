@@ -45,7 +45,7 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "daniel@gmail.com"
+                                        "example": "test@gmail.com"
                                     },
                                     "phone_number": {
                                         "type": "string",
@@ -117,7 +117,7 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "daniel32@gmail.com"
+                                        "example": "test@gmail.com"
                                     },
                                     "password": {
                                         "type": "string",
@@ -160,6 +160,300 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/v1/shops": {
+            "get": {
+                "tags": [
+                    "Shop"
+                ],
+                "summary": "view shop",
+                "description": "shop user and invalidate token",
+                "operationId": "shop",
+                "responses": {
+                    "401": {
+                        "description": "Returns when user is not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not authorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/shops/{shop}": {
+            "get": {
+                "tags": [
+                    "Shop"
+                ],
+                "summary": "view a shop",
+                "description": "shop user and invalidate token",
+                "operationId": "view shop by Id",
+                "parameters": [
+                    {
+                        "name": "shop",
+                        "in": "path",
+                        "description": "ID of shop to return",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Returns when user is not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not authorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/create-shop": {
+            "post": {
+                "tags": [
+                    "Shop"
+                ],
+                "summary": "create shop",
+                "description": "shop user and invalidate token",
+                "operationId": "create shop",
+                "requestBody": {
+                    "description": "fill the",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "shop_name",
+                                    "shop_description",
+                                    "shop_address",
+                                    "opening_time",
+                                    "closing_time"
+                                ],
+                                "properties": {
+                                    "shop_name": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "test shop"
+                                    },
+                                    "shop_description": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "test description"
+                                    },
+                                    "shop_address": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "test address"
+                                    },
+                                    "opening_time": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "8:00"
+                                    },
+                                    "closing_time": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "10:00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Returns when user is not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not authorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/update-shop/{shop}": {
+            "put": {
+                "tags": [
+                    "Shop"
+                ],
+                "summary": "update shop",
+                "description": "shop user and invalidate token",
+                "operationId": "update shop",
+                "parameters": [
+                    {
+                        "name": "shop",
+                        "in": "path",
+                        "description": "ID of shop to return",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "requestBody": {
+                    "description": "fill the",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "shop_name",
+                                    "shop_description",
+                                    "shop_address",
+                                    "opening_time",
+                                    "closing_time"
+                                ],
+                                "properties": {
+                                    "shop_name": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "test shop"
+                                    },
+                                    "shop_description": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "test description"
+                                    },
+                                    "shop_address": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "test address"
+                                    },
+                                    "opening_time": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "8:00"
+                                    },
+                                    "closing_time": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "10:00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Returns when user is not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not authorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/delete-shop/{shop}": {
+            "delete": {
+                "tags": [
+                    "Shop"
+                ],
+                "summary": "delete shop",
+                "description": "shop user and invalidate token",
+                "operationId": "delete shop",
+                "parameters": [
+                    {
+                        "name": "shop",
+                        "in": "path",
+                        "description": "ID of shop to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Returns when user is not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not authorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         }
     },
