@@ -1,0 +1,7 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "Laravel/laravel_phpdoc_separation": false,
+        "Laravel/laravel_phpdoc_alignment": false
+    }
+}
