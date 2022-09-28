@@ -21,6 +21,6 @@ class IsAdmin
             return $next($request);
         }
 
-        return response()->json(['message' => 'You are not authorized to access this page.', 'status_code' => 401, 'success' => false], 401);
+        return response()->json(['message' => 'You are not authorized to access this page.', 'status_code' => 403, 'success' => false], 403);
     }
 }

@@ -25,9 +25,6 @@ class AppointmentController extends Controller
      * operationId="Appointment",
      * tags={"Appointment"},
      * security={ {"sanctum": {} }},
-     * @OA\AcceptHeader(
-     *   mediaType="application/json",
-     * ),
      * @OA\Response(
      *    response=401,
      *    description="Returns when user is not authenticated",
@@ -41,7 +38,7 @@ class AppointmentController extends Controller
     {
         // get all appointment
         try {
-            $appointments = Appointment::all();
+            $appointments = Appointment::where('user_id', $this->apiUser()->id)->get();
 
             return ApiHelper::validResponse('appointments retrieved successfully', AppointmentResource::collection($appointments), Response::HTTP_OK);
         } catch (Exception $e) {
@@ -59,7 +56,7 @@ class AppointmentController extends Controller
      * security={ {"sanctum": {} }},
      * @OA\RequestBody(
      *    required=true,
-     *    description="fill the",
+     *   description="Pass Appointment details",
      *    @OA\JsonContent(
      *       required={"date","time"},
      *       @OA\Property(property="date", type="string", format="date", example="2021-05-01"),
@@ -108,7 +105,6 @@ class AppointmentController extends Controller
      * @OA\Get(
      * path="/api/v1/appointment-history",
      * summary="View Appointment History",
-     * description="Appointment user and invalidate token",
      * operationId="View Appointment History",
      * tags={"Appointment"},
      * security={ {"sanctum": {} }},
@@ -125,7 +121,7 @@ class AppointmentController extends Controller
     {
         // get all appointment
         try {
-            $appointments = AppointmentHistory::all();
+            $appointments = AppointmentHistory::where('user_id', $this->apiUser()->id)->get();
 
             return ApiHelper::validResponse('appointment history retrieved successfully', AppointmentHistoryResource::collection($appointments), Response::HTTP_OK);
         } catch (Exception $e) {
@@ -137,7 +133,6 @@ class AppointmentController extends Controller
      * @OA\Get(
      * path="/api/v1/appointment/{id}",
      * summary="View Appointment by id",
-     * description="Appointment user and invalidate token",
      * operationId="View Appointment by id",
      * tags={"Appointment"},
      * security={ {"sanctum": {} }},
@@ -179,7 +174,6 @@ class AppointmentController extends Controller
      * @OA\Get(
      * path="/api/v1/appointment-history/{id}",
      * summary="View Appointment History by id",
-     * description="Appointment user and invalidate token",
      * operationId="View Appointment History by id",
      * tags={"Appointment"},
      * security={ {"sanctum": {} }},
@@ -222,7 +216,6 @@ class AppointmentController extends Controller
      * @OA\Get(
      * path="/api/v1/appointment-user-history/{id}",
      * summary="View Appointment History by user id",
-     * description="Appointment user and invalidate token",
      * operationId="View Appointment History by user id",
      * tags={"Appointment"},
      * security={ {"sanctum": {} }},
@@ -265,7 +258,6 @@ class AppointmentController extends Controller
      * @OA\Put(
      * path="/api/v1/appointment/{id}",
      * summary="update appointment status",
-     * description="Appointment user and invalidate token",
      * operationId="update appointment status",
      * tags={"Appointment"},
      * security={ {"sanctum": {} }},

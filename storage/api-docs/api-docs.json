@@ -145,7 +145,7 @@
                 "description": "Appointment user and invalidate token",
                 "operationId": "Create Appointment",
                 "requestBody": {
-                    "description": "fill the",
+                    "description": "Pass Appointment details",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -202,7 +202,6 @@
                     "Appointment"
                 ],
                 "summary": "View Appointment History",
-                "description": "Appointment user and invalidate token",
                 "operationId": "View Appointment History",
                 "responses": {
                     "401": {
@@ -235,7 +234,6 @@
                     "Appointment"
                 ],
                 "summary": "View Appointment by id",
-                "description": "Appointment user and invalidate token",
                 "operationId": "View Appointment by id",
                 "parameters": [
                     {
@@ -279,7 +277,6 @@
                     "Appointment"
                 ],
                 "summary": "update appointment status",
-                "description": "Appointment user and invalidate token",
                 "operationId": "update appointment status",
                 "parameters": [
                     {
@@ -344,7 +341,6 @@
                     "Appointment"
                 ],
                 "summary": "View Appointment History by id",
-                "description": "Appointment user and invalidate token",
                 "operationId": "View Appointment History by id",
                 "parameters": [
                     {
@@ -390,7 +386,6 @@
                     "Appointment"
                 ],
                 "summary": "View Appointment History by user id",
-                "description": "Appointment user and invalidate token",
                 "operationId": "View Appointment History by user id",
                 "parameters": [
                     {
