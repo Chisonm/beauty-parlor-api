@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\Api\Admin\ManageUserController;
-use App\Http\Controllers\Api\Appointment\AppointmentController;
-use App\Http\Controllers\Api\Auth\AuthController;
-use App\Http\Controllers\Api\Shop\ShopController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Shop\ShopController;
+use App\Http\Controllers\Api\Admin\ManageShopController;
+use App\Http\Controllers\Api\Admin\ManageUserController;
+use App\Http\Controllers\Api\Appointment\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------

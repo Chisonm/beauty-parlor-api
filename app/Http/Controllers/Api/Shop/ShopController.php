@@ -37,7 +37,7 @@ class ShopController extends Controller
         try {
             $shops = Shop::where('user_id', $this->apiUser()->id)->get();
 
-            return ApiHelper::validResponse('Shops retrieved successfully', ShopResource::collection($shops), 200);
+            return ApiHelper::validResponse('Shops retrieved successfully', ShopResource::collection($shops), Response::HTTP_OK);
         } catch (Exception $e) {
             return ApiHelper::invalidResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
