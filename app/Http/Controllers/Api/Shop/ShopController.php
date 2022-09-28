@@ -45,7 +45,7 @@ class ShopController extends Controller
 
     /**
      * @OA\Get(
-     * path="/api/v1/shops/{shop}",
+     * path="/api/v1/shop/{shop}",
      * summary="view a shop",
      * description="shop user and invalidate token",
      * operationId="view shop by Id",
