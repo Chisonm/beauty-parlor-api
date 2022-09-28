@@ -71,7 +71,7 @@ class ShopTest extends TestCase
      public function testViewSingleShop()
      {
          $shop = $this->createShop();
-         $response = $this->actingAs($this->user)->getJson('/api/v1/shops/'.$shop->id);
+         $response = $this->actingAs($this->user)->getJson('/api/v1/shop/'.$shop->id);
          $response->assertStatus(200);
      }
 

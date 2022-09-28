@@ -71,14 +71,17 @@ class ShopController extends Controller
      * )
      * )
      */
-    public function getShop(Shop $shop)
+    public function getShop($id)
     {
         try {
-            if (! $shop || $shop->user_id !== $this->apiUser()->id) {
-                return ApiHelper::dataNotFound();
+            $shop = Shop::where('user_id', $this->apiUser()->id)
+                ->where('id', $id)->first();
+
+            if (!$shop) {
+                return ApiHelper::invalidResponse('Shop not found', Response::HTTP_NOT_FOUND);
             }
 
-            return ApiHelper::validResponse('Shop retrieved successfully', ShopResource::make($shop), 200);
+            return ApiHelper::validResponse('Shop retrieved successfully', ShopResource::make($shop), Response::HTTP_OK);
         } catch (Exception $e) {
             return ApiHelper::invalidResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }

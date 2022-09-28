@@ -615,7 +615,7 @@
                 ]
             }
         },
-        "/api/v1/shops/{shop}": {
+        "/api/v1/shop/{shop}": {
             "get": {
                 "tags": [
                     "Shop"

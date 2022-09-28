@@ -23,12 +23,6 @@ Route::prefix('v1')->group(function () {
     Route::post('signin', [AuthController::class, 'login']);
 
     Route::middleware(['auth:sanctum'])->group(function () {
-        Route::get('shops', [ShopController::class, 'getAllShop']);
-        Route::get('shop/{shop}', [ShopController::class, 'getShop']);
-        Route::post('/create-shop', [ShopController::class, 'createShop']);
-        Route::put('/update-shop/{shop}', [ShopController::class, 'updateShop']);
-        Route::delete('/delete-shop/{shop}', [ShopController::class, 'deleteShop']);
-
         Route::get('appointments', [AppointmentController::class, 'getAllAppointment']);
         Route::post('appointments', [AppointmentController::class, 'createAppointment']);
         Route::get('appointment/{id}', [AppointmentController::class, 'getAppointmentById']);
@@ -40,6 +34,13 @@ Route::prefix('v1')->group(function () {
         Route::get('appointment-history', [AppointmentController::class, 'getAppointmentHistory']);
         // get a single user appointment history
         Route::get('appointment-user-history/{id}', [AppointmentController::class, 'getAppointmentHistoryByUserId']);
+
+
+        Route::get('shops', [ShopController::class, 'getAllShop']);
+        Route::get('shop/{id}', [ShopController::class, 'getShop']);
+        Route::post('/create-shop', [ShopController::class, 'createShop']);
+        Route::put('/update-shop/{shop}', [ShopController::class, 'updateShop']);
+        Route::delete('/delete-shop/{shop}', [ShopController::class, 'deleteShop']);
     });
 
     // route with admin middleware
