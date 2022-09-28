@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api\Shop;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Helpers\ApiHelper;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ShopRequest;
 use App\Http\Resources\CreateShopResource;
 use App\Http\Resources\ShopResource;
 use App\Models\Shop;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -246,6 +246,7 @@ class ShopController extends Controller
             return ApiHelper::validResponse($message);
         } catch (Exception $e) {
             $message = 'Something went wrong while processing your request.';
+
             return ApiHelper::invalidResponse($message, Response::HTTP_INTERNAL_SERVER_ERROR, $request, $e);
         }
     }

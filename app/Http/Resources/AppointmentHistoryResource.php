@@ -17,7 +17,6 @@ class AppointmentHistoryResource extends JsonResource
         return [
             'id' => $this->id,
             'appointment' => new AppointmentResource($this->appointment),
-            'user' => new UserResource($this->user),
             'created_at' => $this->created_at,
         ];
     }

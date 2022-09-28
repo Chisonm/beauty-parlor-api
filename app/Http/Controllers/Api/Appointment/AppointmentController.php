@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Api\Appointment;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Helpers\ApiHelper;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\AppointmentRequest;
 use App\Http\Requests\UpdateAppointmentStatusRequest;
 use App\Http\Resources\AppointmentHistoryResource;
@@ -93,9 +92,11 @@ class AppointmentController extends Controller
             ]);
 
             DB::commit();
+
             return ApiHelper::validResponse('appointment created successfully', CreateAppointmentResource::make($appointment), Response::HTTP_CREATED);
         } catch (\Exception $e) {
             DB::rollBack();
+
             return ApiHelper::invalidResponse('Something went wrong while processing your request.', Response::HTTP_INTERNAL_SERVER_ERROR, $request, $e);
         }
     }
