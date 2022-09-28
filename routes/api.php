@@ -24,7 +24,7 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('shops', [ShopController::class, 'getAllShop']);
-        Route::get('shops/{shop}', [ShopController::class, 'getShop']);
+        Route::get('shop/{shop}', [ShopController::class, 'getShop']);
         Route::post('/create-shop', [ShopController::class, 'createShop']);
         Route::put('/update-shop/{shop}', [ShopController::class, 'updateShop']);
         Route::delete('/delete-shop/{shop}', [ShopController::class, 'deleteShop']);

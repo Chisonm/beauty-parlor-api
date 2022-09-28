@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-use App\Helpers\ApiHelper;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\CreateShopResource;
-use App\Http\Resources\ShopResource;
-use App\Models\Shop;
 use Exception;
+use App\Models\Shop;
+use App\Helpers\ApiHelper;
 use Illuminate\Http\Request;
+use App\Http\Requests\ShopRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\ShopResource;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\CreateShopResource;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,7 +27,7 @@ class ManageShopController extends Controller
             $shops = Shop::all();
             $message = 'shops retrieved successfully';
 
-            return response()->json(['data' => ShopResource::collection($shops), 'message' => 'shops retreive successfully', 'status' => 'SUCCESS', 'status_code' => Response::HTTP_OK], Response::HTTP_OK);
+            return ApiHelper::validResponse($message, ShopResource::collection($shops), Response::HTTP_OK);
         } catch (Exception $e) {
             return ApiHelper::invalidResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -38,39 +39,19 @@ class ManageShopController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ShopRequest $request)
     {
         // create shop
         try {
-            // validator
-            $validator = Validator::make($request->all(), [
-                'shop_name' => 'required|string|max:255',
-                'shop_description' => 'nullable|string|max:255',
-                'shop_address' => 'required|string|max:255',
-                'opening_time' => 'required|date_format:H:i',
-                'closing_time' => 'required|date_format:H:i|after:opening_time',
-            ]);
-
-            // if validation fails
-            if ($validator->fails()) {
-                throw new ValidationException($validator);
-            }
-
-            $data = $validator->validated();
+            $data = $request->validated();
             $data['user_id'] = auth('api')->user()->id;
 
             $shop = Shop::create($data);
 
             $message = 'shop created successfully';
-
-            return response()->json(['data' => $shop, 'message' => $message, 'status' => 'SUCCESS'], Response::HTTP_CREATED);
-        } catch (ValidationException $e) {
-            $message = 'The given data was invalid.';
-
-            return ApiHelper::inputErrorResponse($message, Response::HTTP_UNPROCESSABLE_ENTITY, $request, $e);
-        } catch (Exception $e) {
+            return ApiHelper::validResponse($message, new CreateShopResource($shop), Response::HTTP_CREATED);
+        }catch (Exception $e) {
             $message = 'Something went wrong while processing your request.';
-
             return ApiHelper::invalidResponse($message, Response::HTTP_INTERNAL_SERVER_ERROR, $request, $e);
         }
     }
