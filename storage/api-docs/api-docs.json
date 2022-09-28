@@ -615,7 +615,7 @@
                 ]
             }
         },
-        "/api/v1/shop/{shop}": {
+        "/api/v1/shop/{id}": {
             "get": {
                 "tags": [
                     "Shop"
@@ -625,7 +625,7 @@
                 "operationId": "view shop by Id",
                 "parameters": [
                     {
-                        "name": "shop",
+                        "name": "id",
                         "in": "path",
                         "description": "ID of shop to return",
                         "required": true,
@@ -739,7 +739,7 @@
                 ]
             }
         },
-        "/api/v1/update-shop/{shop}": {
+        "/api/v1/update-shop/{id}": {
             "put": {
                 "tags": [
                     "Shop"
@@ -749,7 +749,7 @@
                 "operationId": "update shop",
                 "parameters": [
                     {
-                        "name": "shop",
+                        "name": "id",
                         "in": "path",
                         "description": "ID of shop to return",
                         "required": true,
@@ -830,7 +830,7 @@
                 ]
             }
         },
-        "/api/v1/delete-shop/{shop}": {
+        "/api/v1/delete-shop/{id}": {
             "delete": {
                 "tags": [
                     "Shop"
@@ -840,7 +840,7 @@
                 "operationId": "delete shop",
                 "parameters": [
                     {
-                        "name": "shop",
+                        "name": "id",
                         "in": "path",
                         "description": "ID of shop to delete",
                         "required": true,

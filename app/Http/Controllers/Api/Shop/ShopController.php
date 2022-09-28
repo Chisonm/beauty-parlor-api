@@ -10,7 +10,6 @@ use App\Http\Resources\ShopResource;
 use App\Models\Shop;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
 class ShopController extends Controller
@@ -36,6 +35,9 @@ class ShopController extends Controller
     {
         try {
             $shops = Shop::where('user_id', $this->apiUser()->id)->get();
+            if (! $shop) {
+                return ApiHelper::invalidResponse('Shop not found', Response::HTTP_NOT_FOUND);
+            }
 
             return ApiHelper::validResponse('Shops retrieved successfully', ShopResource::collection($shops), Response::HTTP_OK);
         } catch (Exception $e) {
@@ -45,7 +47,7 @@ class ShopController extends Controller
 
     /**
      * @OA\Get(
-     * path="/api/v1/shop/{shop}",
+     * path="/api/v1/shop/{id}",
      * summary="view a shop",
      * description="shop user and invalidate token",
      * operationId="view shop by Id",
@@ -54,7 +56,7 @@ class ShopController extends Controller
      * @OA\Parameter(
      *    description="ID of shop to return",
      *    in="path",
-     *    name="shop",
+     *    name="id",
      *    required=true,
      *    example="1",
      *    @OA\Schema(
@@ -77,7 +79,7 @@ class ShopController extends Controller
             $shop = Shop::where('user_id', $this->apiUser()->id)
                 ->where('id', $id)->first();
 
-            if (!$shop) {
+            if (! $shop) {
                 return ApiHelper::invalidResponse('Shop not found', Response::HTTP_NOT_FOUND);
             }
 
@@ -130,19 +132,15 @@ class ShopController extends Controller
                 'user_id' => $this->apiUser()->id,
             ]);
 
-            $message = 'shop created successfully';
-
-            return ApiHelper::validResponse($message, CreateShopResource::make($shop), 201);
+            return ApiHelper::validResponse('shop created successfully', CreateShopResource::make($shop), Response::HTTP_CREATED);
         } catch (Exception $e) {
-            $message = 'Something went wrong while processing your request.';
-
-            return ApiHelper::invalidResponse($message, Response::HTTP_INTERNAL_SERVER_ERROR, $request, $e);
+            return ApiHelper::invalidResponse('Something went wrong while processing your request.', Response::HTTP_INTERNAL_SERVER_ERROR, $request, $e);
         }
     }
 
     /**
      * @OA\Put(
-     * path="/api/v1/update-shop/{shop}",
+     * path="/api/v1/update-shop/{id}",
      * summary="update shop",
      * description="shop user and invalidate token",
      * operationId="update shop",
@@ -151,7 +149,7 @@ class ShopController extends Controller
      * @OA\Parameter(
      *    description="ID of shop to return",
      *    in="path",
-     *    name="shop",
+     *    name="id",
      *    required=true,
      *    example="1",
      *    @OA\Schema(
@@ -180,14 +178,15 @@ class ShopController extends Controller
      * )
      * )
      */
-    public function updateShop(ShopRequest $request, Shop $shop)
+    public function updateShop(ShopRequest $request, $id)
     {
         // use validator to validate the request
         try {
-            if (! $shop || $shop->user_id !== $this->apiUser()->id) {
-                return ApiHelper::dataNotFound();
+            $shop = Shop::where('user_id', $this->apiUser()->id)
+                ->where('id', $id)->first();
+            if (! $shop) {
+                return ApiHelper::invalidResponse('Shop not found', Response::HTTP_NOT_FOUND);
             }
-
             // update shop
             $shop->update([
                 'shop_name' => $request->shop_name,
@@ -197,19 +196,15 @@ class ShopController extends Controller
                 'closing_time' => $request->closing_time,
             ]);
 
-            $message = 'shop updated successfully';
-
-            return ApiHelper::validResponse($message, CreateShopResource::make($shop), 200);
+            return ApiHelper::validResponse('shop updated successfully', CreateShopResource::make($shop), 200);
         } catch (Exception $e) {
-            $message = 'Something went wrong while processing your request.';
-
-            return ApiHelper::invalidResponse($message, Response::HTTP_INTERNAL_SERVER_ERROR, $request, $e);
+            return ApiHelper::invalidResponse('Something went wrong while processing your request.', Response::HTTP_INTERNAL_SERVER_ERROR, $request, $e);
         }
     }
 
     /**
      * @OA\Delete(
-     * path="/api/v1/delete-shop/{shop}",
+     * path="/api/v1/delete-shop/{id}",
      * summary="delete shop",
      * description="shop user and invalidate token",
      * operationId="delete shop",
@@ -218,7 +213,7 @@ class ShopController extends Controller
      * @OA\Parameter(
      *    description="ID of shop to delete",
      *    in="path",
-     *    name="shop",
+     *    name="id",
      *    required=true,
      *    example="1",
      *    @OA\Schema(
@@ -235,22 +230,21 @@ class ShopController extends Controller
      * )
      * )
      */
-    public function deleteShop(Request $request, Shop $shop)
+    public function deleteShop(Request $request, $id)
     {
         try {
-            if (! $shop || $shop->user_id !== $this->apiUser()->id) {
-                return ApiHelper::dataNotFound();
+            $shop = Shop::where('user_id', $this->apiUser()->id)
+                ->where('id', $id)->first();
+
+            if (! $shop) {
+                return ApiHelper::invalidResponse('Shop not found', Response::HTTP_NOT_FOUND);
             }
 
             $shop->delete();
 
-            $message = 'shop deleted successfully';
-
-            return ApiHelper::validResponse($message);
+            return ApiHelper::validResponse('shop deleted successfully', Response::HTTP_OK);
         } catch (Exception $e) {
-            $message = 'Something went wrong while processing your request.';
-
-            return ApiHelper::invalidResponse($message, Response::HTTP_INTERNAL_SERVER_ERROR, $request, $e);
+            return ApiHelper::invalidResponse('Something went wrong while processing your request.', Response::HTTP_INTERNAL_SERVER_ERROR, $request, $e);
         }
     }
 }

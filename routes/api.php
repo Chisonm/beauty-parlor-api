@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\Auth\AuthController;
-use App\Http\Controllers\Api\Shop\ShopController;
 use App\Http\Controllers\Api\Admin\ManageShopController;
 use App\Http\Controllers\Api\Admin\ManageUserController;
 use App\Http\Controllers\Api\Appointment\AppointmentController;
+use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Shop\ShopController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,12 +35,11 @@ Route::prefix('v1')->group(function () {
         // get a single user appointment history
         Route::get('appointment-user-history/{id}', [AppointmentController::class, 'getAppointmentHistoryByUserId']);
 
-
         Route::get('shops', [ShopController::class, 'getAllShop']);
         Route::get('shop/{id}', [ShopController::class, 'getShop']);
         Route::post('/create-shop', [ShopController::class, 'createShop']);
-        Route::put('/update-shop/{shop}', [ShopController::class, 'updateShop']);
-        Route::delete('/delete-shop/{shop}', [ShopController::class, 'deleteShop']);
+        Route::put('/update-shop/{id}', [ShopController::class, 'updateShop']);
+        Route::delete('/delete-shop/{id}', [ShopController::class, 'deleteShop']);
     });
 
     // route with admin middleware

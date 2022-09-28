@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-use Exception;
-use App\Models\Shop;
 use App\Helpers\ApiHelper;
-use Illuminate\Http\Request;
-use App\Http\Requests\ShopRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ShopResource;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\ShopRequest;
 use App\Http\Resources\CreateShopResource;
+use App\Http\Resources\ShopResource;
+use App\Models\Shop;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -49,9 +49,11 @@ class ManageShopController extends Controller
             $shop = Shop::create($data);
 
             $message = 'shop created successfully';
+
             return ApiHelper::validResponse($message, new CreateShopResource($shop), Response::HTTP_CREATED);
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             $message = 'Something went wrong while processing your request.';
+
             return ApiHelper::invalidResponse($message, Response::HTTP_INTERNAL_SERVER_ERROR, $request, $e);
         }
     }
