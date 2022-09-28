@@ -25,6 +25,9 @@ class AppointmentController extends Controller
      * operationId="Appointment",
      * tags={"Appointment"},
      * security={ {"sanctum": {} }},
+     * @OA\AcceptHeader(
+     *   mediaType="application/json",
+     * ),
      * @OA\Response(
      *    response=401,
      *    description="Returns when user is not authenticated",
