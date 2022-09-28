@@ -40,6 +40,10 @@ class AppointmentController extends Controller
         try {
             $appointments = Appointment::where('user_id', $this->apiUser()->id)->get();
 
+            if (! $appointments) {
+                return ApiHelper::invalidResponse('Appointment not found', Response::HTTP_NOT_FOUND);
+            }
+
             return ApiHelper::validResponse('appointments retrieved successfully', AppointmentResource::collection($appointments), Response::HTTP_OK);
         } catch (Exception $e) {
             return ApiHelper::invalidResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -123,6 +127,10 @@ class AppointmentController extends Controller
         try {
             $appointments = AppointmentHistory::where('user_id', $this->apiUser()->id)->get();
 
+            if (! $appointments) {
+                return ApiHelper::invalidResponse('Appointment History not found', Response::HTTP_NOT_FOUND);
+            }
+
             return ApiHelper::validResponse('appointment history retrieved successfully', AppointmentHistoryResource::collection($appointments), Response::HTTP_OK);
         } catch (Exception $e) {
             return ApiHelper::invalidResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -159,9 +167,9 @@ class AppointmentController extends Controller
     public function getAppointmentById($id)
     {
         try {
-            $appointment = Appointment::find($id);
-            if (! $appointment || $appointment->user_id !== $this->apiUser()->id) {
-                return ApiHelper::dataNotFound();
+            $appointment = Appointment::where('user_id', $this->apiUser()->id)->where('id', $id)->first();
+            if (! $appointment) {
+                return ApiHelper::invalidResponse('Appointment not found', Response::HTTP_NOT_FOUND);
             }
 
             return ApiHelper::validResponse('appointment retrieved successfully', AppointmentResource::make($appointment), Response::HTTP_OK);
@@ -200,10 +208,10 @@ class AppointmentController extends Controller
     public function getAppointmentHistoryById($id)
     {
         try {
-            $appointment = AppointmentHistory::find($id);
+            $appointment = AppointmentHistory::where('user_id', $this->apiUser()->id)->where('id', $id)->first();
 
-            if (! $appointment || $appointment->user_id !== $this->apiUser()->id) {
-                return ApiHelper::dataNotFound();
+            if (! $appointment) {
+                return ApiHelper::invalidResponse('Appointment History not found', Response::HTTP_NOT_FOUND);
             }
 
             return ApiHelper::validResponse('appointment history retrieved successfully', AppointmentHistoryResource::make($appointment), Response::HTTP_OK);
@@ -245,7 +253,7 @@ class AppointmentController extends Controller
         try {
             $appointment = AppointmentHistory::where('user_id', $id)->get();
             if (! $appointment) {
-                return ApiHelper::dataNotFound();
+                return ApiHelper::invalidResponse('user appointment history not found', Response::HTTP_NOT_FOUND);
             }
 
             return ApiHelper::validResponse('user appointment history retrieved successfully', AppointmentHistoryResource::collection($appointment), Response::HTTP_OK);
@@ -295,14 +303,12 @@ class AppointmentController extends Controller
             $data = $request->validated();
 
             $appointment = Appointment::find($id);
-            if (! $appointment || $appointment->user_id !== $this->apiUser()->id) {
-                return ApiHelper::dataNotFound();
+            if (! $appointment) {
+                return ApiHelper::invalidResponse('Appointment not found', Response::HTTP_NOT_FOUND);
             }
 
             $appointment->status = $data['status'];
             $appointment->save();
-
-            $message = 'appointment status updated successfully';
 
             return ApiHelper::validResponse('appointment status updated successfully', CreateAppointmentResource::make($appointment), Response::HTTP_OK);
         } catch (\Exception $e) {
