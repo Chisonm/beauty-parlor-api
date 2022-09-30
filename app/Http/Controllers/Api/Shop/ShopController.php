@@ -35,7 +35,7 @@ class ShopController extends Controller
     {
         try {
             $shops = Shop::where('user_id', $this->apiUser()->id)->get();
-            if (! $shop) {
+            if (! $shops) {
                 return ApiHelper::invalidResponse('Shop not found', Response::HTTP_NOT_FOUND);
             }
 
